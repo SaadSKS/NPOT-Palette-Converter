@@ -1,5 +1,5 @@
 # NPOT-Palette-Converter
- Convert NPOT Palette from MagicaVoxel to POT in Blender
+ Convert NPOT Palette Texture from MagicaVoxel to POT
  
  Requirements:
  - Blender 2.93
