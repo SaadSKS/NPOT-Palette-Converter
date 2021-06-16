@@ -11,9 +11,11 @@ def main(context):
 
     # adjust uv coordinates
     
+
+    
+    #UV Remapping begins
     bpy.context.area.ui_type = 'UV'
     bpy.ops.uv.select_all(action='SELECT')
-    bpy.ops.transform.resize(value=(16, 16, 16), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
     bpy.ops.transform.translate(value=(7.47070312, -0, -0), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(True, False, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
     bpy.ops.transform.translate(value=(-0, -0.46875, -0), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
 
@@ -32,7 +34,7 @@ def main(context):
     bmesh.update_edit_mesh(me)
 
 
-class UvOperator(bpy.types.Operator):
+class ConvertPalette(bpy.types.Operator):
     """UV Operator description"""
     bl_idname = "uv.simple_operator"
     bl_label = "Simple UV Operator"
@@ -48,15 +50,42 @@ class UvOperator(bpy.types.Operator):
 
 
 def register():
-    bpy.utils.register_class(UvOperator)
+    bpy.utils.register_class(ConvertPalette)
 
 
 def unregister():
-    bpy.utils.unregister_class(UvOperator)
+    bpy.utils.unregister_class(ConvertPalette)
 
 
 if __name__ == "__main__":
     register()
 
-    # test call
+
+    #Fixed Scaling via Reference Cube
+    bpy.context.area.ui_type = 'VIEW_3D'
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.editmode_toggle()
+    bpy.context.area.ui_type = 'UV'
+    bpy.ops.uv.select_all(action='SELECT')
+    bpy.ops.transform.resize(value=(16, 1, 1), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(True, False, False), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
+    bpy.context.area.ui_type = 'VIEW_3D'
+    bpy.ops.object.editmode_toggle()
+    bpy.ops.object.select_all(action='DESELECT')
+    bpy.data.objects["PaletteMapper"].select_set(True)
+    bpy.ops.object.hide_view_set(unselected=False)
+    
+    
+    bpy.context.area.ui_type = 'VIEW_3D'
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.context.view_layer.objects.active = bpy.context.selected_objects[0]
+    bpy.ops.object.editmode_toggle()
+
+    
+    #UV Remapping Function
     bpy.ops.uv.simple_operator()
+    
+    #Bring back to object view
+    bpy.context.area.ui_type = 'VIEW_3D'
+    bpy.ops.object.editmode_toggle()
+    bpy.context.space_data.shading.type = 'MATERIAL'
+
