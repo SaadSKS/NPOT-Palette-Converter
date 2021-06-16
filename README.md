@@ -1,11 +1,11 @@
 # NPOT-Palette-Converter
  Convert NPOT Palette Texture from MagicaVoxel to POT
  
- Requirements:
+# Requirements:
  - Blender 2.93
  - MagicaVoxel 0.99.6.2
  
- Instructions:
+# Instructions:
  1. Create/Open your voxel model in MagicaVoxel (Recommended to save your .vox model at this point as well)
  2. In the export tab, select 'OBJ' and export to your preferred location. 3 Files will be created: (sample.obj sample.mtl sample.png)
  3. Now load PaletteMapper.vox in MagicaVoxel 
